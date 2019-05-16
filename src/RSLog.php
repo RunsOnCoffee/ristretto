@@ -79,6 +79,7 @@ class RSLog
 				case 'level': $inst->logLevel = $v; break;
 			}			
 		}
+		
 
 		// configure a default log file
 		if( $inst->log == null /* || !is_writable( $inst->log ) */ )
@@ -103,7 +104,8 @@ class RSLog
 			}
 			
 			$inst->log = $logDir.$logFile;
-			if( !is_writable( $logDir.$logFile ) )
+			$p = new RSPath( $inst->log );
+			if( !$p->writable() )
 			{
 		        fwrite( STDERR, $inst->timestamp()." [error]: default log file '$logDir$logFile' not writable" );
 				$inst->log = null;
